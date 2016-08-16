@@ -1,0 +1,107 @@
+<html>
+<head>
+  <style>
+  body, input[text], button {
+    color: #888;
+    font-family: Cambria, Georgia;
+  }
+  h1 {
+    color: #369;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 250%;
+  }
+  * {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+.ball {
+  position: absolute;
+  background-color:red;
+  color: red;
+  border-radius:15px;
+  /* font-size:20px; */
+  width:20px;
+  height:20px;
+}
+.container {
+  position: absolute;
+  border: 1px solid black;
+  width: 500px;
+  height: 500px;
+}
+.quater1 {
+  position: absolute;
+  left:0 px;
+  top: 0 px;
+  width: 250px;
+  height: 250px;
+}
+  </style>
+</head>
+  <body ng-app="bouncingBalls" ng-controller="bouncingController">
+  <h1>Bouncing Balls in Angular1</h1>
+  <input ng-model="ballCount">
+  {{ballCount}}
+  <div class="container">
+  <ball ng-repeat="ball in balls">@</ball>
+  </div>
+
+  <!-- <script src="node_modules/dist/system.js"></script> -->
+  <script src="node_modules/angular/angular.js"></script>
+  <script src="node_modules/lodash/lodash.js"></script>
+  <script>
+    // SystemJS.import('node_modules/lodash
+  var makeColor = _.template('rgb(<%= red %>, <%= green %>, <%= blue %>)');
+    angular.module('bouncingBalls', [])
+    .directive('ball', function() {
+      return {
+        template: '<div class="ball" ng-style="vm"></div>',
+        controllerAs: 'vm',
+        controller: function($interval) {
+          var ball = this;
+          var color = {
+            red : Math.floor(Math.random() * 255),
+            green : Math.floor(Math.random() * 255),
+            blue : Math.floor(Math.random() * 255),
+          },
+          col = makeColor(color);
+          ball.color = col;
+          ball['background-color'] = col;
+
+          ball.left = Math.floor(Math.random() * 500) + 'px';
+          ball.top = Math.floor(Math.random() * 500) + 'px';
+
+          ball.dir = {
+            left: Math.floor(Math.random() * 5),
+            top:  Math.floor(Math.random() * 5)
+          }
+
+          $interval(function() {
+              var
+              curTop = parseInt(ball.top),
+              curLeft = parseInt(ball.left);
+
+              if (curTop + ball.dir.top >= 500 || curTop + ball.dir.top <= 0) {
+                ball.dir.top = -1 * ball.dir.top;
+              }
+
+              if (curLeft + ball.dir.left >= 500 || curLeft + ball.dir.left <=0 ) {
+                ball.dir.left = -1 * ball.dir.left;
+              }
+
+              ball.top = curTop + ball.dir.top + 'px';
+              ball.left = curLeft + ball.dir.left + 'px';
+
+          });
+
+        }
+      };
+    })
+    .controller('bouncingController', function($scope) {
+      $scope.ballCount=10;
+      $scope.$watch("ballCount", function(newBallCount) {
+        $scope.balls = _.range(newBallCount);
+      });
+    });
+  </script>
+  </body>
+</html>

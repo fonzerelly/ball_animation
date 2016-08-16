@@ -1,0 +1,16 @@
+{
+  "name": "ball_animation_ng1",
+  "version": "1.0.0",
+  "description": "This will display some balls in the borwser and bounce them on the borders of a container by Angular1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Christian Hörauf",
+  "license": "MIT",
+  "dependencies": {
+    "angular": "^1.5.7",
+    "lodash": "^4.13.1"
+  },
+  "devDependencies": {}
+}
